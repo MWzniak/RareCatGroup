@@ -5,23 +5,19 @@ class RareCatGroup():
     When you are faced with a lot of rare categories, OneHotEncoding might create too many dimensions. 
     Mapping these as 'other' drastically reduces the dimensionality of the dataset.
     '''
-    def __init__(self,dataset,amount_of_obs,col_list=False,target_variable=False,map_value='other'):
+    def __init__(self,dataset,n,col_list=False,map_value='other'):
         '''
         Parameters
         ----------
         dataset : pandas.DataFrame object
             Dataframe which you want to modify.
         
-        amount_of_obs : int
+        n : int
             Categories with less or equal this amount will be converted to map_value
 
         col_list : list, optional
             Colums of the dataset which you want altered. 
             Defeault = False, every column in the dataset will be altered.
-        
-        target_variable: string, optional
-            Specify the column name of the target variable. This column will be left unchanged.
-            Defeault = False, all entered columns will be altered.
 
         map_value: string or numerical, optional
             Specify the replacement value of the rare categories
@@ -29,15 +25,12 @@ class RareCatGroup():
         '''
         self.name_list=[]   
         self.dict_list=[]
-        self.am=amount_of_obs
+        self.am=n
         self.dataset=dataset
         if col_list:
             self.cats=col_list
         else:
             self.cats=list(self.dataset.columns)
-        if target_variable:
-            if target_variable in self.cats:
-                self.cats.remove(target_variable)
         self.map_value=map_value
     def make_dict(self):
         for n in self.cats:
